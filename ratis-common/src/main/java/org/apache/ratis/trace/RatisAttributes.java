@@ -15,29 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.ratis.netty;
+package org.apache.ratis.trace;
 
-import org.apache.ratis.RaftAsyncTests;
-import org.apache.ratis.client.RaftClient;
-import org.apache.ratis.server.RaftServer;
-import org.apache.ratis.util.Slf4jUtils;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Timeout;
-import org.slf4j.event.Level;
+import io.opentelemetry.api.common.AttributeKey;
 
-@Timeout(100)
-public class TestRaftAsyncWithNetty
-    extends RaftAsyncTests<MiniRaftClusterWithNetty>
-    implements MiniRaftClusterWithNetty.FactoryGet {
-  {
-    Slf4jUtils.setLogLevel(RaftServer.Division.LOG, Level.INFO);
-    Slf4jUtils.setLogLevel(RaftClient.LOG, Level.INFO);
-  }
+/**
+ * The constants in this class correspond with the guidance outlined by the OpenTelemetry <a href=
+ * "https://github.com/open-telemetry/semantic-conventions">Semantic
+ * Conventions</a>.
+ */
+public final class RatisAttributes {
+  public static final AttributeKey<String> CLIENT_ID = AttributeKey.stringKey("raft.client.id");
+  public static final AttributeKey<String> MEMBER_ID = AttributeKey.stringKey("raft.member.id");
+  public static final AttributeKey<String> CALL_ID = AttributeKey.stringKey("raft.call.id");
 
-  @Override
-  @Test
-  @Timeout(500)
-  public void testWithLoadAsync() throws Exception {
-    super.testWithLoadAsync();
+
+  private RatisAttributes() {
   }
 }
